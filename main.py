@@ -16,6 +16,7 @@ gradebook_courses = []
 
 for course in u_course_list:
     gradebook_courses.append(CourseGradebook(c_user.id, course))
+
 for course in gradebook_courses:
     course.print()
 
