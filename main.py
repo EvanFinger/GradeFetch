@@ -16,36 +16,9 @@ gradebook_courses = []
 
 for course in u_course_list:
     gradebook_courses.append(CourseGradebook(c_user.id, course))
+for course in gradebook_courses:
+    course.print()
 
-    assignment_list = course.get_assignments()
-    assignment_groups = course.get_assignment_groups()
-    for group in assignment_groups:
-        total_group_points = 0
-        max_group_points = 0
-        use_for_final = False
 
-        for assignment in assignment_list:
-            if assignment.assignment_group_id == group.id:
-                try:
-                    max_group_points += assignment.points_possible
-                except:
-                    pass
-
-                submission = assignment.get_submission(canvas.get_current_user().id)
-                if submission.workflow_state == "graded":
-                    try:
-                        total_group_points += submission.score
-                    except:
-                        pass
-                else:
-                    try:
-                        max_group_points -= assignment.points_possible
-                    except:
-                        pass
-
-        print("-------------------------------")
-        print(group.name + " " + str(group.group_weight) + "% of final grade")
-        print(str(total_group_points) + "/" + str(max_group_points))
-    print("FINAL GRADE: ")
 
 
