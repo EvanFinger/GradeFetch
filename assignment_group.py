@@ -22,11 +22,11 @@ class AssignmentGroup:
         self.group = group
         self.posted_weight_on_final = group.group_weight
         it = 0
-        loading_bar(0, len(assignments) + 1)
+        loading_bar("Init Group", 0, len(assignments) + 1)
         for assignment in assignments:
             it += 1
             self.assignments.append(AssignmentInfo(self.uid, assignment))
-            loading_bar(it, len(assignments))
+            loading_bar("Init Group", it, len(assignments))
         self.__init_variables__()
 
     def __init_variables__(self):

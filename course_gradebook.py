@@ -1,6 +1,8 @@
 from canvasapi import Canvas
+from atpbar import atpbar
 
 from assignment_group import AssignmentGroup
+from loading_bar import loading_bar
 
 
 class CourseGradebook:
@@ -14,14 +16,20 @@ class CourseGradebook:
         self.course = course
         self.uid = uid
         self.course_assignments = self.course.get_assignments()  # fetching assignments from the course
-        self.course_assignment_groups = self.course.get_assignment_groups()
-
+        self.course_assignment_groups = []
+        for grp in self.course.get_assignment_groups():
+            self.course_assignment_groups.append(grp)
+        it = 0
+        loading_bar("Init Course", 0, len(self.course_assignment_groups)+1)
         for grp in self.course_assignment_groups:  # Sorts the assignments with their respective groups
+            it += 1
             temp = []                                    # list that holds the assignments to be placed in a group
             for assignment in self.course_assignments:
                 if assignment.assignment_group_id == grp.id:
                     temp.append(assignment)
             self.groups.append(AssignmentGroup(uid, grp, temp))
+            loading_bar("Init Course", it, len(self.course_assignment_groups))
+
         self.__calc_final__()
 
     def __calc_final__(self):
