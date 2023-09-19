@@ -9,7 +9,8 @@ class CourseGradebook:
 
     def __init__(self, uid, course):
         self.groups = []
-
+        self.final_grade = -1
+        self.course_weight = 0.
         self.course = course
         self.uid = uid
         self.course_assignments = self.course.get_assignments()  # fetching assignments from the course
@@ -21,13 +22,28 @@ class CourseGradebook:
                 if assignment.assignment_group_id == grp.id:
                     temp.append(assignment)
             self.groups.append(AssignmentGroup(uid, grp, temp))
+        self.__calc_final__()
 
     def __calc_final__(self):
-        pass
+        for group in self.groups:
+            self.course_weight += (group.active_weight_on_final / 100)
+        if self.course_weight > 0.0:
+            for group in self.groups:
+                self.final_grade += (group.grade_percent / 100.0) * (group.active_weight_on_final / 100.0)
+            self.final_grade /= self.course_weight
+        else:
+            pts_possible = 0
+            for group in self.groups:
+                self.final_grade += group.score
+                pts_possible += group.points_possible
+            if pts_possible > 0:
+                self.final_grade /= pts_possible
+            else:
+                self.final_grade = -1
 
     def print(self):
         print('///////////////////////////////////////////////////' + '\n')
-        print(self.course.name + '\n')
+        print(self.course.name + ' ' + str(self.course_weight) + ' ' + str(self.final_grade) + '%' + '\n')
         print('///////////////////////////////////////////////////')
 
         for group in self.groups:
