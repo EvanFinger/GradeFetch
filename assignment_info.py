@@ -18,10 +18,9 @@ class AssignmentInfo:
         self.__init_variables__()
 
     def __init_variables__(self):
-        print("_INIT_ASSIGNMENT_")
+        # print("_INIT_ASSIGNMENT_")
         self.name = self.assignment.name
         self.points_possible = self.assignment.points_possible
-        print(self.points_possible)
 
         if self.submission.workflow_state == "graded":
             try:

@@ -1,6 +1,7 @@
 from canvasapi import canvas
 
 from assignment_info import AssignmentInfo
+from loading_bar import loading_bar
 
 class AssignmentGroup:
 
@@ -20,12 +21,16 @@ class AssignmentGroup:
         self.uid = uid
         self.group = group
         self.posted_weight_on_final = group.group_weight
+        it = 0
+        loading_bar(0, len(assignments) + 1)
         for assignment in assignments:
+            it += 1
             self.assignments.append(AssignmentInfo(self.uid, assignment))
+            loading_bar(it, len(assignments))
         self.__init_variables__()
 
     def __init_variables__(self):
-        print("_INIT_GROUP_")
+        # print("_INIT_GROUP_")
         self.name = self.group.name
         self.gid = self.group.id
 
