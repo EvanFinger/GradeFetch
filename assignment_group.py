@@ -1,4 +1,5 @@
 from canvasapi import canvas
+from tqdm import tqdm
 
 from assignment_info import AssignmentInfo
 from loading_bar import loading_bar
@@ -6,7 +7,6 @@ from loading_bar import loading_bar
 class AssignmentGroup:
 
     uid = 0
-
 
     def __init__(self, uid, group, assignments):
         self.gid = 0
@@ -21,12 +21,12 @@ class AssignmentGroup:
         self.uid = uid
         self.group = group
         self.posted_weight_on_final = group.group_weight
-        it = 0
-        loading_bar("Init Group", 0, len(assignments) + 1)
-        for assignment in assignments:
-            it += 1
-            self.assignments.append(AssignmentInfo(self.uid, assignment))
-            loading_bar("Init Group", it, len(assignments))
+
+        with tqdm(assignments, leave=False) as pbar:
+            for assignment in pbar:
+
+                self.assignments.append(AssignmentInfo(self.uid, assignment))
+            pbar.close()
         self.__init_variables__()
 
     def __init_variables__(self):

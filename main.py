@@ -10,12 +10,19 @@ canvas = Canvas(API_URL, API_KEY)
 
 c_user = canvas.get_current_user()  # fetches current canvas user
 u_enrollment_list = c_user.get_enrollments()  # fetches current user's enrollment data
-u_course_list = canvas.get_courses()  # fetches the current user's courses
+u_course_list = [*canvas.get_courses()]  # fetches the current user's courses
 
 gradebook_courses = []
 
+it = 0
 for course in u_course_list:
-    gradebook_courses.append(CourseGradebook(c_user.id, course))
+    gradebook_courses.append(
+        CourseGradebook(
+            c_user.id,
+            course
+        )
+    )
+    it += 1
 
 for course in gradebook_courses:
     course.print()
