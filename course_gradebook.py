@@ -1,5 +1,5 @@
 from canvasapi import Canvas
-from atpbar import atpbar
+
 
 from assignment_group import AssignmentGroup
 from loading_bar import loading_bar
