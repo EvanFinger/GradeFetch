@@ -1,5 +1,5 @@
 from canvasapi import Canvas
-from collections import deque
+from tqdm import tqdm
 
 from course_gradebook import CourseGradebook
 
@@ -15,7 +15,7 @@ u_course_list = [*canvas.get_courses()]  # fetches the current user's courses
 gradebook_courses = []
 
 it = 0
-for course in u_course_list:
+for course in tqdm(u_course_list, ncols=100, colour='red', desc='Fetching Courses... ', leave=False):
     gradebook_courses.append(
         CourseGradebook(
             c_user.id,

@@ -22,7 +22,7 @@ class AssignmentGroup:
         self.group = group
         self.posted_weight_on_final = group.group_weight
 
-        with tqdm(assignments, leave=False) as pbar:
+        with tqdm(assignments, desc='Fetching Assignments... ', ncols=100, colour='yellow',  leave=False) as pbar:
             for assignment in pbar:
 
                 self.assignments.append(AssignmentInfo(self.uid, assignment))
