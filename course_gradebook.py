@@ -19,13 +19,14 @@ class CourseGradebook:
         self.course_assignment_groups = []
         for grp in self.course.get_assignment_groups():
             self.course_assignment_groups.append(grp)
-
-        for grp in tqdm(self.course_assignment_groups, ncols=100, colour='blue',  desc='Fetching Assignment Groups... ', leave=False):  # Sorts the assignments with their respective group
-            temp = []                                    # list that holds the assignments to be placed in a group
-            for assignment in self.course_assignments:
-                if assignment.assignment_group_id == grp.id:
-                    temp.append(assignment)
-            self.groups.append(AssignmentGroup(uid, grp, temp))
+        with tqdm(self.course_assignment_groups, ncols=100, colour='blue',  desc='Fetching Assignment Groups... ', leave=False) as pbar:
+            for grp in pbar:  # Sorts the assignments with their respective group
+                pbar.desc = grp.name
+                temp = []  # list that holds the assignments to be placed in a group
+                for assignment in self.course_assignments:
+                    if assignment.assignment_group_id == grp.id:
+                        temp.append(assignment)
+                self.groups.append(AssignmentGroup(uid, grp, temp))
 
 
         self.__calc_final__()

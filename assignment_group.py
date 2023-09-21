@@ -24,7 +24,7 @@ class AssignmentGroup:
 
         with tqdm(assignments, desc='Fetching Assignments... ', ncols=100, colour='yellow',  leave=False) as pbar:
             for assignment in pbar:
-
+                pbar.desc = assignment.name
                 self.assignments.append(AssignmentInfo(self.uid, assignment))
             pbar.close()
         self.__init_variables__()

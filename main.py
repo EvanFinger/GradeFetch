@@ -14,15 +14,15 @@ u_course_list = [*canvas.get_courses()]  # fetches the current user's courses
 
 gradebook_courses = []
 
-it = 0
-for course in tqdm(u_course_list, ncols=100, colour='red', desc='Fetching Courses... ', leave=False):
-    gradebook_courses.append(
-        CourseGradebook(
-            c_user.id,
-            course
+with tqdm(u_course_list, ncols=100, colour='red', desc='Fetching Courses... ', leave=False) as pbar:
+    for course in pbar:
+        pbar.desc = course.name
+        gradebook_courses.append(
+            CourseGradebook(
+                c_user.id,
+                course
+            )
         )
-    )
-    it += 1
 
 for course in gradebook_courses:
     course.print()
