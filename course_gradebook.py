@@ -11,7 +11,7 @@ class CourseGradebook:
 
     def __init__(self, uid, course):
         self.groups = []
-        self.final_grade = -1
+        self.final_grade = 0
         self.course_weight = 0.
         self.course = course
         self.uid = uid
