@@ -1,0 +1,7 @@
+test {
+    layout: horizontal;
+}
+Button {
+    height: 7;
+    color: goldenrod;
+}
