@@ -1,0 +1,27 @@
+test {
+    layout: horizontal;
+
+}
+
+Button{
+    height: 5;
+    color: blue;
+}
+
+#yes {
+    visibility: visible;
+}
+
+#no {
+    visibility: visible;
+    dock: right;
+}
+
+.yes {
+    color: aqua;
+    text-style: bold;
+}
+
+.yes #yes{
+    display: none;
+}

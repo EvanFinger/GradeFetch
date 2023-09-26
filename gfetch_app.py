@@ -3,9 +3,16 @@ from textual.widgets import Footer, Header, Button, Input, Static
 
 
 class test(Static):
+    
+    def on_button_pressed(self, event: Button.Pressed) -> None:
+        if(event.button.id == "yes")
+        {
+            self.add_class("yes")
+        }
+        
     def compose(self):
-        yield Button()
-        yield Button()
+        yield Button("Yes", id="yes")
+        yield Button("No", id="no")
 
 
 class GradeFetchApp(App):
@@ -14,7 +21,7 @@ class GradeFetchApp(App):
                 ("d", "toggle_dark_mode", "Dark Mode")
             ]
 
-    CSS_PATH = "test.css"
+    CSS_PATH = "test.tcss"
 
     def compose(self):
 
