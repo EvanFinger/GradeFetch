@@ -25,8 +25,11 @@ ProgBars {
     width: 50%;
 }
 
+#load {
+    width: 7.5%;
+}
 #fetch {
-    width: 15%;
+    width: 7.5%;
 }
 
 CredentialDisplay {
