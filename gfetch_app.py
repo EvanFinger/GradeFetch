@@ -8,15 +8,19 @@ class ProgBars(Static):
         yield ProgressBar(id="course_progress")
         yield ProgressBar(id="course_assignment_group_progress")
         yield ProgressBar(id="assignment_progress")
+        
+class CredentialDisplay(Static):
+    
+    def compose(self):
+        yield Label("User", id="name_label")
+        yield Label("-----", id="name_display")
+        yield Label("-----", id="uid_display")
 
 class CredInput_Layer2(Static):
     def compose(self):
         yield Button("FETCH", id="fetch", variant="success")
-        yield Label("User:     UID:     ", id="name_uid_display")
+        yield CredentialDisplay()
         yield ProgBars()
-        
-        
-        
 
 class CredentialInput(Static):
                 

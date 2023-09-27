@@ -17,8 +17,8 @@ Input {
 
 CredInput_Layer2 {
     width: 100%;
+    border: black;
     layout: horizontal;
-    margin: 1;
 }
 
 ProgBars {
@@ -29,9 +29,21 @@ ProgBars {
     width: 15%;
 }
 
-#name_uid_display {
+CredentialDisplay {
     width: 35%;
-    margin-top: 1;
+}
+
+#name_label {
+    width: 100%;
     text-align: center;
 }
 
+#name_display {
+    width: 100%;
+    text-align: center;
+}
+
+#uid_display {
+    width: 100%;
+    text-align: center;
+}
