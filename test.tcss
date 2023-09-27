@@ -1,27 +1,37 @@
-test {
+
+MainContainer {
+    width: 100%;
+}
+
+CredentialInput {
+    width: 100%;
+    background: $boost;
+    margin: 1;
+    padding: 1;
+    height: 14;
+}
+
+Input {
+    
+}
+
+CredInput_Layer2 {
+    width: 100%;
     layout: horizontal;
-
+    margin: 1;
 }
 
-Button{
-    height: 5;
-    color: blue;
+ProgBars {
+    width: 50%;
 }
 
-#yes {
-    visibility: visible;
+#fetch {
+    width: 15%;
 }
 
-#no {
-    visibility: visible;
-    dock: right;
+#name_uid_display {
+    width: 35%;
+    margin-top: 1;
+    text-align: center;
 }
 
-.yes {
-    color: aqua;
-    text-style: bold;
-}
-
-.yes #yes{
-    display: none;
-}
