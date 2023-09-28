@@ -18,6 +18,7 @@ class CredentialDisplay(Static):
 
 class CredInput_Layer2(Static):
     def compose(self):
+        yield Button("CLOSE PROFILE", id="close")
         yield Button("LOAD PROFILE", id="load")
         yield Button("SAVED PROFILES", id="saved")
         yield Button("FETCH", id="fetch", variant="success")
@@ -39,7 +40,7 @@ class CredentialInput(Static):
         label = self.query_one("#uid_display", Label)
         label.update(str(uid_display))
         
-    def ToggleFetch(self, disabled = None):
+    def ToggleFetchButton(self, disabled = None):
         obj = self.query_one("#fetch", Button)
         if disabled == None:
             obj.disabled = not obj.disabled
@@ -47,6 +48,10 @@ class CredentialInput(Static):
             obj.disabled = disabled
     
     def ProfileLoaded(self, profile_loaded):
-        self.query_one("#fetch", Button).add_class("profile_loaded")
-        self.query_one("#saved", Button).add_class("profile_loaded")
+        if(profile_loaded):
+            obj = self.query_one(CredInput_Layer2)
+            obj.add_class("profile_loaded")
+        else:
+            obj = self.query_one(CredInput_Layer2)
+            obj.remove_class("profile_loaded")
         

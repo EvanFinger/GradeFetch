@@ -21,6 +21,10 @@ ProgBars {
     width: 50%;
 }
 
+#close {
+    width: 7.5%;
+    display: none;
+}
 #load {
     width: 7.5%;
 }
@@ -29,6 +33,12 @@ ProgBars {
 }
 #fetch {
     width: 7.5%;
+    display: none;
+}
+.profile_loaded #close {
+    display: block;
+}
+.profile_loaded #load {
     display: none;
 }
 .profile_loaded #saved {
@@ -55,4 +65,11 @@ CredentialDisplay {
 #uid_display {
     width: 100%;
     text-align: center;
+}
+
+.hidden SavedCredentials {
+    display: none;
+}
+.hidden #profile_options {
+    display: none;
 }

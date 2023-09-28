@@ -11,7 +11,7 @@ class MainContainer(Static):
     
     def compose(self):
         yield CredentialInput()
-        yield SavedCredentials()
+        yield SavedCredentials(classes="hidden")
         
 
 class GradeFetchApp(App):
@@ -62,14 +62,36 @@ class GradeFetchApp(App):
             self.canvas_api = Canvas(API_URL, API_TOKEN)
             self.user_name = self.canvas_api.get_current_user().name
             self.user_uid = self.canvas_api.get_current_user().id
-            self.query_one(CredentialInput).ToggleFetch(False)
+            self.query_one(CredentialInput).ToggleFetchButton(False)
             
             # update butttons
             self.query_one(CredentialInput).ProfileLoaded(True)
+            self.query_one(SavedCredentials).add_class("hidden")
         except Exception as e:
             self.user_name = e
             self.user_uid = "Invalid Token"
-            self.query_one(CredentialInput).ToggleFetch(True)
+            self.query_one(CredentialInput).ToggleFetchButton(True)
             
         self.query_one(CredentialInput).EditDisplay(self.user_name, self.user_uid)
+        
+    @on(Button.Pressed, "#close")
+    def UnloadProfile(self):
+        self.canvas_api = None
+        self.user_name = "-----"
+        self.user_uid = "-----"
+        self.query_one(CredentialInput).ProfileLoaded(False)
+        self.query_one(CredentialInput).EditDisplay(self.user_name, self.user_uid)
+        
+    @on(Button.Pressed, "#saved")
+    def ShowSavedProfileList(self):
+        obj = self.query_one(SavedCredentials)
+        
+        if(obj.initialized):
+            obj.init_options()
+            
+        if(obj.has_class("hidden")):
+            obj.remove_class("hidden")
+        else:
+            obj.add_class("hidden")
+        obj.initialized = True
         

@@ -2,6 +2,7 @@ from textual.widgets import OptionList, Static, Label
 from textual.widgets.option_list import Option, Separator
 
 class SavedCredentials(Static):
+    initialized = False
     
     def compose(self):
         yield Label("SAVED PROFILES")
