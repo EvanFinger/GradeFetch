@@ -1,5 +1,5 @@
 from textual import on
-from textual.widgets import Button, Input, Static, ProgressBar, Label
+from textual.widgets import Placeholder, Button, Input, Static, ProgressBar, Label
 
 
 class ProgBars(Static):
@@ -11,8 +11,6 @@ class ProgBars(Static):
         
 class CredentialDisplay(Static):
     
-    
-    
     def compose(self):
         yield Label("User", id="name_label")
         yield Label("-----", id="name_display")
@@ -21,11 +19,13 @@ class CredentialDisplay(Static):
 class CredInput_Layer2(Static):
     def compose(self):
         yield Button("LOAD PROFILE", id="load")
+        yield Button("SAVED PROFILES", id="saved")
         yield Button("FETCH", id="fetch", variant="success")
         yield CredentialDisplay()
         yield ProgBars()
 
 class CredentialInput(Static):
+    
     
                         
     def compose(self):
@@ -38,3 +38,15 @@ class CredentialInput(Static):
         label.update(str(name_display))
         label = self.query_one("#uid_display", Label)
         label.update(str(uid_display))
+        
+    def ToggleFetch(self, disabled = None):
+        obj = self.query_one("#fetch", Button)
+        if disabled == None:
+            obj.disabled = not obj.disabled
+        else:
+            obj.disabled = disabled
+    
+    def ProfileLoaded(self, profile_loaded):
+        self.query_one("#fetch", Button).add_class("profile_loaded")
+        self.query_one("#saved", Button).add_class("profile_loaded")
+        

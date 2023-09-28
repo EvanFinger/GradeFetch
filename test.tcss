@@ -24,8 +24,18 @@ ProgBars {
 #load {
     width: 7.5%;
 }
+#saved {
+    width: 7.5%;
+}
 #fetch {
     width: 7.5%;
+    display: none;
+}
+.profile_loaded #saved {
+    display: none;
+}
+.profile_loaded #fetch {
+    display: block;
 }
 
 CredentialDisplay {
