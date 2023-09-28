@@ -12,7 +12,7 @@ class ProgBars(Static):
 class CredentialDisplay(Static):
     
     def compose(self):
-        yield Label("\033[1mUser", id="name_label")
+        yield Label("User", id="name_label")
         yield Label("-----", id="name_display")
         yield Label("-----", id="uid_display")
 
@@ -25,7 +25,6 @@ class CredInput_Layer2(Static):
 
 class CredentialInput(Static):
     
-        
                         
     def compose(self):
         yield Input(value="https://canvas.vt.edu", id="url_input")

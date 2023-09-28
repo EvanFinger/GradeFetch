@@ -17,7 +17,7 @@ Input {
 
 CredInput_Layer2 {
     width: 100%;
-    border: black;
+    padding: 1;
     layout: horizontal;
 }
 
