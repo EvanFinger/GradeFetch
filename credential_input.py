@@ -11,6 +11,8 @@ class ProgBars(Static):
         
 class CredentialDisplay(Static):
     
+    
+    
     def compose(self):
         yield Label("User", id="name_label")
         yield Label("-----", id="name_display")
@@ -30,3 +32,9 @@ class CredentialInput(Static):
         yield Input(value="https://canvas.vt.edu", id="url_input")
         yield Input(placeholder="Your Canvas Access Token (4511~...)", id="token_input")
         yield CredInput_Layer2()
+        
+    def EditDisplay(self, name_display, uid_display):
+        label = self.query_one("#name_display", Label)
+        label.update(str(name_display))
+        label = self.query_one("#uid_display", Label)
+        label.update(str(uid_display))

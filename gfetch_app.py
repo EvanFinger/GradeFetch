@@ -1,10 +1,10 @@
 from textual import on
 from textual.app import App
 from textual.widgets import Footer, Header, Button, Input, Static, ProgressBar, Label
-from credential_input import CredentialInput
+from credential_input import CredentialInput, CredentialDisplay
 
 from canvasapi import Canvas, exceptions
-from canvasapi.exceptions import CanvasException
+from canvasapi.requester import CanvasException, ResourceDoesNotExist
 
 
 class MainContainer(Static):
@@ -49,6 +49,9 @@ class GradeFetchApp(App):
     @on(Button.Pressed, "#load")
     @on(Input.Submitted)
     def LoadProfile(self):
+        
+        self.query_one(CredentialInput).EditDisplay("-----", "-----")
+        
         input = self.query_one("#url_input", Input)
         API_URL = input.value
         input = self.query_one("#token_input", Input)
@@ -57,19 +60,11 @@ class GradeFetchApp(App):
             self.canvas_api = Canvas(API_URL, API_TOKEN)
             self.user_name = self.canvas_api.get_current_user().name
             self.user_uid = self.canvas_api.get_current_user().id
-        except (
-            CanvasException, exceptions.InvalidAccessToken, exceptions.ResourceDoesNotExist,
-            exceptions.BadRequest, exceptions.Unauthorized, exceptions.Forbidden,
-            exceptions.RateLimitExceeded, exceptions.Conflict, exceptions.UnprocessableEntity, 
-            exceptions.RequiredFieldMissing, Exception
-            ) as e:
-            self.user_name = "Invalid Token"
-            self.user_uid = e
+        except Exception as e:
+            self.user_name = e
+            self.user_uid = "Invalid Token"
+            self.query_one(CredentialDisplay).add_class
             print(e)
             
-        label = self.query_one("#name_display", Label)
-        label.update(self.user_name)
-        label = self.query_one("#uid_display", Label)
-        label.update(str(self.user_uid))
-        self.mount(Label(self.canvas_api.get_current_user().name + " " + str(self.canvas_api.get_current_user().id)))
+        self.query_one(CredentialInput).EditDisplay(self.user_name, self.user_uid)
         

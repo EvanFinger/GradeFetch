@@ -11,10 +11,6 @@ CredentialInput {
     height: 14;
 }
 
-Input {
-    
-}
-
 CredInput_Layer2 {
     width: 100%;
     padding: 1;
