@@ -1,8 +1,7 @@
 from canvasapi import canvas
 from tqdm import tqdm
 
-from assignment_info import AssignmentInfo
-from loading_bar import loading_bar
+from GradeFetch.Source.API.assignment_info import AssignmentInfo
 
 class AssignmentGroup:
 

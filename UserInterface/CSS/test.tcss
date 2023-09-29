@@ -3,12 +3,10 @@ MainContainer {
     width: 100%;
 }
 
-CredentialInput {
+
+
+CredInput_Layer1 {
     width: 100%;
-    background: $boost;
-    margin: 1;
-    padding: 1;
-    height: 14;
 }
 
 CredInput_Layer2 {
@@ -18,21 +16,21 @@ CredInput_Layer2 {
 }
 
 ProgBars {
-    width: 50%;
+    width: 30%;
 }
 
 #close {
-    width: 7.5%;
+    width: 15%;
     display: none;
 }
 #load {
-    width: 7.5%;
+    width: 15%;
 }
 #saved {
-    width: 7.5%;
+    width: 15%;
 }
 #fetch {
-    width: 7.5%;
+    width: 15%;
     display: none;
 }
 .profile_loaded #close {
@@ -48,8 +46,9 @@ ProgBars {
     display: block;
 }
 
+
 CredentialDisplay {
-    width: 35%;
+    width: 20%;
 }
 
 #name_label {

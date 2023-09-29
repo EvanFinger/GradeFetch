@@ -2,7 +2,6 @@ from canvasapi import Canvas
 from tqdm import tqdm
 from textual.app import App
 
-from course_gradebook import CourseGradebook
 from gfetch_app import GradeFetchApp
 
 

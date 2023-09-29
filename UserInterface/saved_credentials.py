@@ -1,12 +1,13 @@
 from textual.widgets import OptionList, Static, Label
 from textual.widgets.option_list import Option, Separator
+import csv
 
 class SavedCredentials(Static):
     initialized = False
     
     def compose(self):
         yield Label("SAVED PROFILES")
-        yield OptionList(id="profile_options")
+       
         
     def init_options(self):
         ProfileList = ["op1", "op2", "op3"]

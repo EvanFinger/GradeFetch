@@ -1,18 +1,12 @@
 from textual import on
 from textual.app import App
 from textual.widgets import Footer, Header, Button, Input, Static, ProgressBar, Label
-from credential_input import CredentialInput, CredentialDisplay
-from saved_credentials import SavedCredentials
 
-from canvasapi import Canvas
+from UserInterface.login_ui import LoginUI, CredentialInputs, SavedLoginSelector
+from UserInterface.saved_credentials import SavedCredentials
+from UserInterface.loaded_profile import LoadedProfile_Layer1, LoadedProfile_Layer2
 
-
-class MainContainer(Static):
-    
-    def compose(self):
-        yield CredentialInput()
-        yield SavedCredentials(classes="hidden")
-        
+from API.canvas_api import canvas_api
 
 class GradeFetchApp(App):
 
@@ -20,14 +14,19 @@ class GradeFetchApp(App):
                 ("d", "toggle_dark_mode", "Dark Mode")
             ]
 
-    CSS_PATH = "test.tcss"
+    CSS_PATH = [
+        "UserInterface\\CSS\\test.tcss",
+        "UserInterface\\CSS\\login_ui_css.tcss"
+    ]
+    
+    api = canvas_api()
 
     def compose(self):
 
         """Defines Widgets"""
         yield Header()
         yield Footer()
-        yield MainContainer()
+        yield LoginUI()
 
 #######################################
 #######################################
@@ -40,39 +39,34 @@ class GradeFetchApp(App):
     def action_toggle_dark_mode(self):
         self.dark = not self.dark
 
-#######################################
-#######################################
-    
-# Handle Events within the Application
-    
-#######################################
+
 #######################################
     
+# Handle LoginUI Events
+    
+#######################################
+
     @on(Button.Pressed, "#load")
     @on(Input.Submitted)
     def LoadProfile(self):
-        
-        self.query_one(CredentialInput).EditDisplay("-----", "-----")
-        
+            
         input = self.query_one("#url_input", Input)
         API_URL = input.value
         input = self.query_one("#token_input", Input)
         API_TOKEN = input.value
         try:
-            self.canvas_api = Canvas(API_URL, API_TOKEN)
-            self.user_name = self.canvas_api.get_current_user().name
-            self.user_uid = self.canvas_api.get_current_user().id
-            self.query_one(CredentialInput).ToggleFetchButton(False)
+            self.api.LoadCanvasProfile(API_URL=API_URL, API_TOKEN=API_TOKEN)
+            self.user_name = self.api.user_name
+            self.user_uid = self.api.user_id
             
+                
             # update butttons
-            self.query_one(CredentialInput).ProfileLoaded(True)
+            self.query_one(LoginUI).ProfileLoaded(True)
             self.query_one(SavedCredentials).add_class("hidden")
         except Exception as e:
-            self.user_name = e
-            self.user_uid = "Invalid Token"
-            self.query_one(CredentialInput).ToggleFetchButton(True)
-            
-        self.query_one(CredentialInput).EditDisplay(self.user_name, self.user_uid)
+            pass
+    
+
         
     @on(Button.Pressed, "#close")
     def UnloadProfile(self):

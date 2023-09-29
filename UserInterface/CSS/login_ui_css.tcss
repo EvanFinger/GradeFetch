@@ -1,0 +1,65 @@
+
+LoginUI {
+    width: 100%;
+    background: $boost;
+    margin: 1;
+    padding: 1;
+    height: 14;
+}
+
+CredentialInputs {
+    width: 100%;
+}
+
+SavedLoginSelector {
+    display: none;
+    width: 100%;
+}
+
+/*-------------------Buttons-------------------*/
+
+LoginButtons {
+    layout: horizontal;
+    padding: 1;
+    align: center middle;
+    width: 100%;
+}
+
+#btn_load_profile {
+    margin-right: 2;
+}
+
+#btn_saved_profiles {
+    margin-left: 2;
+}
+
+#btn_new_profile {
+    display: none;
+    margin-left: 2;
+}
+
+/*-------------------Classes-------------------*/
+
+.ShowSaved #url_input {
+    display: none;
+}
+
+.ShowSaved #token_input {
+    display: none;
+}
+
+.ShowSaved #btn_saved_profiles {
+    display: none;
+}
+
+.ShowSaved #profile_options {
+    display: block;
+}
+
+.ShowSaved #btn_new_profile {
+    display: block;
+}
+
+.ShowSaved SavedLoginSelector {
+    display: block;
+}
