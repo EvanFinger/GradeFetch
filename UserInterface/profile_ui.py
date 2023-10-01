@@ -1,8 +1,11 @@
+
+from textual import on
+from textual.app import ComposeResult, App
 from textual.widgets import Static, Label, Button, ProgressBar
 
 
 
-class LoadedProfile_Layer1(Static):
+class ProfileUI_Layer1(Static):
     def compose(self):
         yield ProfileDetailLabel()
     
@@ -12,7 +15,7 @@ class ProfileDetailLabel(Static):
         yield Label(id="user_name_display")
         yield Label(id="user_id_display")
         
-class LoadedProfile_Layer2(Static):
+class ProfileUI_Layer2(Static):
     def compose(self):
         yield Button("CLOSE PROFILE", id="close_profile", variant="error")
         yield Button("SAVE PROFILE", id="save_profile")
@@ -25,3 +28,13 @@ class FetchProgress(Static):
         yield ProgressBar(id="course_progress")
         yield ProgressBar(id="course_assignment_group_progress")
         yield ProgressBar(id="assignment_progress")
+        
+class ProfileUI(Static):
+    
+    def compose(self):
+        yield ProfileUI_Layer1()
+        yield ProfileUI_Layer2()
+        
+    
+    
+    

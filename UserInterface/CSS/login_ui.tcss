@@ -80,6 +80,14 @@ LoginButtons {
     margin-left: 2;
 }
 
+#btn_cancel_delete {
+    display: none;
+}
+
+#btn_delete_profile {
+    display: none;
+}
+
 #btn_new_profile {
     display: none;
     margin-left: 2;
@@ -99,7 +107,23 @@ LoginButtons {
     display: none;
 }
 
+.ShowSaved #btn_delete_profile {
+    display: block;
+}
+
 .ShowSaved #btn_new_profile {
+    display: block;
+}
+
+.DeleteMode #profile_options {
+    background: $error;
+}
+
+.ShowSaved.DeleteMode #btn_delete_profile {
+    display: none;
+}
+
+.DeleteMode #btn_cancel_delete {
     display: block;
 }
 

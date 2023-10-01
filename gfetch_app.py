@@ -2,11 +2,13 @@ from textual import on
 from textual.app import App
 from textual.widgets import Footer, Header, Button, Input, Static, ProgressBar, Label
 
-from UserInterface.login_ui import LoginUI, CredentialInputs, SavedLoginSelector
+from UserInterface.login_ui import LoginUI
 from UserInterface.saved_credentials import SavedCredentials
-from UserInterface.loaded_profile import LoadedProfile_Layer1, LoadedProfile_Layer2
+from UserInterface.profile_ui import ProfileUI
 
 from API.canvas_api import canvas_api
+
+import csv
 
 class GradeFetchApp(App):
 
@@ -15,8 +17,9 @@ class GradeFetchApp(App):
             ]
 
     CSS_PATH = [
-        "UserInterface\\CSS\\test.tcss",
-        "UserInterface\\CSS\\login_ui_css.tcss"
+        "UserInterface\\CSS\\gfetch_app.tcss",
+        "UserInterface\\CSS\\login_ui.tcss",
+        "UserInterface\\CSS\\profile_ui.tcss"
     ]
     
     api = canvas_api()
@@ -27,6 +30,7 @@ class GradeFetchApp(App):
         yield Header()
         yield Footer()
         yield LoginUI()
+        yield ProfileUI()
 
 #######################################
 #######################################
@@ -60,30 +64,38 @@ class GradeFetchApp(App):
             self.user_uid = self.api.user_id
             
             self.query_one(LoginUI).remove_class("InvalidLogin")
+            self.add_class("ProfileLoaded")
+            self.query_one("#user_name_display", Label).update(str(self.user_name))
+            self.query_one("#user_id_display", Label).update(str(self.user_uid))
         except Exception as e:
             self.query_one(LoginUI).add_class("InvalidLogin")
             self.query_one("#lbl_error", Label).update(str(e))
+        
+        self.query_one("#token_input", Input).value = ""
     
 
         
-    @on(Button.Pressed, "#close")
-    def UnloadProfile(self):
-        self.canvas_api = None
-        self.user_name = "-----"
-        self.user_uid = "-----"
-        self.query_one(CredentialInput).ProfileLoaded(False)
-        self.query_one(CredentialInput).EditDisplay(self.user_name, self.user_uid)
+    @on(Button.Pressed, "#close_profile")
+    def CloseProfile(self):
+        self.remove_class("ProfileLoaded")
+        self.api.UnloadCanvasProfile()
         
-    @on(Button.Pressed, "#saved")
+    @on(Button.Pressed, "#save_profile")
     def ShowSavedProfileList(self):
-        obj = self.query_one(SavedCredentials)
-        
-        if(obj.initialized):
-            obj.init_options()
-            
-        if(obj.has_class("hidden")):
-            obj.remove_class("hidden")
-        else:
-            obj.add_class("hidden")
-        obj.initialized = True
+        new_profile = True
+        with open("app_data\\saved_profiles.csv", "r+") as file:
+            csv_reader = csv.DictReader(file)
+            for profile in csv_reader:
+                if str(self.user_uid) == profile["uid"]:
+                    new_profile = False
+            if new_profile:
+                csv_writer = csv.writer(file)
+                csv_writer.writerow(
+                    [
+                        str(self.user_name), 
+                        str(self.user_uid), 
+                        str(self.api.api_url), 
+                        str(self.api.api_token)
+                        ]
+                    )
         

@@ -1,0 +1,15 @@
+LoginUI {
+    width: 100%;
+}
+
+.ProfileLoaded LoginUI {
+    display: none;
+}
+
+ProfileUI {
+    display: none;
+}
+
+.ProfileLoaded ProfileUI {
+    display: block;
+}

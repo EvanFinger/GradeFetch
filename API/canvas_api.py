@@ -8,6 +8,8 @@ class canvas_api:
     # Account Information
     user_name = ""
     user_id = 0
+    api_url = ""
+    api_token = ""
     
     
     
@@ -17,4 +19,15 @@ class canvas_api:
         
         self.user_name = self.user.name
         self.user_id = self.user.id
+        self.api_url = API_URL
+        self.api_token = API_TOKEN
+        
+                
+    def UnloadCanvasProfile(self):
+        self.canvas = None
+        self.user = None
+        self.user_name = ""
+        self.user_id = 0
+        self.api_url = ""
+        self.api_token = ""
         
