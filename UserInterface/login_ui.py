@@ -58,8 +58,11 @@ class LoginUI(Static):
         
     @on(Button.Pressed, "#btn_delete_profile")
     def DeleteProfile(self):
-        self.query_one(SavedLoginSelector).add_class("DeleteMode")
-        
+        self.add_class("DeleteMode")
+    
+    @on(Button.Pressed, "#btn_cancel_delete")
+    def Cancel(self):
+        self.remove_class("DeleteMode")
         
     def on_option_list_option_selected(self, message):
         self.remove_class("ShowSaved")
