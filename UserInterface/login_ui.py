@@ -1,5 +1,5 @@
 from textual import on
-from textual.app import ComposeResult
+from textual.app import ComposeResult, App
 from textual.widgets import Button, Input, Static, OptionList, Label
 
 import csv
@@ -8,7 +8,8 @@ import csv
 class CredentialInputs(Static):
      def compose(self):
         yield Input(value="https://canvas.vt.edu", id="url_input")
-        yield Input(placeholder="Your Canvas Access Token (4511~...)", id="token_input")   
+        yield Input(placeholder="Your Canvas Access Token (4511~...)", id="token_input")
+        yield Label("", id="lbl_error")
         
 class SavedLoginSelector(Static):
     profile_list = []
@@ -36,19 +37,11 @@ class LoginUI(Static):
         yield CredentialInputs()
         yield SavedLoginSelector()
         yield LoginButtons()
-    
-    
-    def ProfileLoaded(self, profile_loaded):
-        if(profile_loaded):
-            obj = self.query_one(CredInput_Layer2)
-            obj.add_class("profile_loaded")
-        else:
-            obj = self.query_one(CredInput_Layer2)
-            obj.remove_class("profile_loaded")
         
         
     @on(Button.Pressed, "#btn_saved_profiles")
     def OpenSavedProfileList(self):
+        self.remove_class("InvalidLogin")
         if(not self.initSaved):
             self.query_one(SavedLoginSelector).InitList()
         self.initSaved = True

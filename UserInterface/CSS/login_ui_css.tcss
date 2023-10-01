@@ -11,6 +11,13 @@ CredentialInputs {
     width: 100%;
 }
 
+#lbl_error {
+    display: none;
+    width: 100%;
+    text-align: center;
+    color: red;
+}
+
 SavedLoginSelector {
     display: none;
     width: 100%;
@@ -46,6 +53,10 @@ LoginButtons {
 
 .ShowSaved #token_input {
     display: none;
+}
+
+.InvalidLogin #lbl_error {
+    display: block;
 }
 
 .ShowSaved #btn_saved_profiles {

@@ -46,7 +46,7 @@ class GradeFetchApp(App):
     
 #######################################
 
-    @on(Button.Pressed, "#load")
+    @on(Button.Pressed, "#btn_load_profile")
     @on(Input.Submitted)
     def LoadProfile(self):
             
@@ -59,12 +59,10 @@ class GradeFetchApp(App):
             self.user_name = self.api.user_name
             self.user_uid = self.api.user_id
             
-                
-            # update butttons
-            self.query_one(LoginUI).ProfileLoaded(True)
-            self.query_one(SavedCredentials).add_class("hidden")
+            self.query_one(LoginUI).remove_class("InvalidLogin")
         except Exception as e:
-            pass
+            self.query_one(LoginUI).add_class("InvalidLogin")
+            self.query_one("#lbl_error", Label).update(str(e))
     
 
         
