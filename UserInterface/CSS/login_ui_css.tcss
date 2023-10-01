@@ -22,14 +22,19 @@ CredentialInputs {
     display: none;
 }
 
-/*-----------------SavedLoginSelector-----------------*/
-
 #lbl_error {
     display: none;
     width: 100%;
     text-align: center;
     color: red;
 }
+
+.InvalidLogin #lbl_error {
+    display: block;
+}
+/*-----------------SavedLoginSelector-----------------*/
+
+
 
 SavedLoginSelector {
     display: none;
@@ -91,10 +96,6 @@ LoginButtons {
 }
 
 .ShowSaved #btn_saved_profiles {
-    display: none;
-}
-
-#btn_new_profile {
     display: none;
 }
 
