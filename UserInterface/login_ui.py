@@ -1,6 +1,7 @@
 from textual import on
 from textual.app import ComposeResult
 from textual.widgets import Button, Input, Static, OptionList, Label
+from textual.containers import ScrollableContainer
 
 import csv
 
@@ -13,7 +14,10 @@ class CredentialInputs(Static):
 class SavedLoginSelector(Static):
     profile_list = []
     def compose(self):
-         yield OptionList(id="profile_options")    
+        yield Label("V Saved Profiles V", id="lbl_saved_profiles")
+        yield ScrollableContainer(
+            OptionList(id="profile_options")
+            )  
     
     def InitList(self):
         with open('app_data\\saved_profiles.csv') as file:
@@ -21,7 +25,7 @@ class SavedLoginSelector(Static):
             
             for profile in csv_reader:
                 self.profile_list.append(profile)
-                self.query_one("#profile_options", OptionList).add_option(profile["user_name"])
+                self.query_one("#profile_options", OptionList).add_option(profile["user_name"] + " " + profile["uid"])
         
 class LoginButtons(Static):
     def compose(self):
