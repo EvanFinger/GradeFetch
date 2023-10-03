@@ -10,6 +10,10 @@ class canvas_api:
     user_id = 0
     api_url = ""
     api_token = ""
+    num_courses = 0
+    
+    # Fetched Data
+    courses = []
     
     
     
@@ -22,6 +26,8 @@ class canvas_api:
         self.api_url = API_URL
         self.api_token = API_TOKEN
         
+        num_courses = len(self.canvas.get_courses())
+        
                 
     def UnloadCanvasProfile(self):
         self.canvas = None
@@ -30,4 +36,22 @@ class canvas_api:
         self.user_id = 0
         self.api_url = ""
         self.api_token = ""
+        
+        
+        
+class FetchedCourse:
+    groups = []
+    final_grade = 0.0
+    total_weight = 0.0
+    
+    def FetchGrades(self):
+        pass
+    
+class FetchedGroup:
+    assignments = []
+        
+    
+    
+class FetchedAssignment:
+    pass
         

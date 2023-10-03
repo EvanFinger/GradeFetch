@@ -60,7 +60,7 @@ class GradeFetchApp(App):
         API_TOKEN = input.value
         try:
             self.api.LoadCanvasProfile(API_URL=API_URL, API_TOKEN=API_TOKEN)
-            self.user_name = self.api.user_name
+            self.user_name = self.api.num_courses
             self.user_uid = self.api.user_id
             
             self.query_one(LoginUI).remove_class("InvalidLogin")
@@ -81,7 +81,7 @@ class GradeFetchApp(App):
         self.api.UnloadCanvasProfile()
         
     @on(Button.Pressed, "#save_profile")
-    def ShowSavedProfileList(self):
+    def SaveProfile(self):
         new_profile = True
         with open("app_data\\saved_profiles.csv", "r+") as file:
             csv_reader = csv.DictReader(file)
@@ -98,4 +98,8 @@ class GradeFetchApp(App):
                         str(self.api.api_token)
                         ]
                     )
+    
+    @on(Button.Pressed, "#fetch")
+    def Fetch(self):
+        pass
         
