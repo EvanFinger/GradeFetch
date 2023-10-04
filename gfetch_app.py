@@ -101,5 +101,10 @@ class GradeFetchApp(App):
     
     @on(Button.Pressed, "#fetch")
     def Fetch(self):
-        pass
+        course_progress = self.query_one("#course_progress", ProgressBar)
+        course_progress.total = len(self.api.courses)
+        for course in self.api.courses:
+            course_progress.advance(1)
+            
+            
         

@@ -65,11 +65,14 @@ class LoginUI(Static):
         self.remove_class("DeleteMode")
         
     def on_option_list_option_selected(self, message):
-        self.remove_class("ShowSaved")
         index = message.option_index
-        profile = self.query_one(SavedLoginSelector).profile_list[index]
-        self.query_one("#url_input", Input).value = profile["api_url"]
-        self.query_one("#token_input", Input).value = profile["api_token"]
+        if self.has_class("DeleteMode"):
+            profile = self.query_one(SavedLoginSelector).profile_list[index]
+        else:
+            self.remove_class("ShowSaved")
+            profile = self.query_one(SavedLoginSelector).profile_list[index]
+            self.query_one("#url_input", Input).value = profile["api_url"]
+            self.query_one("#token_input", Input).value = profile["api_token"]
         
     
         
