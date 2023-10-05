@@ -1,0 +1,39 @@
+<User id = "222254">
+    <Name></Name>
+    <CumulativeGPA></CumulativeGPA>
+    <Semesters>
+        <Semester id="1">
+            <Start></Start>
+            <End></End>
+            <CreditHours></CreditHours>
+            <GPA></GPA>
+            <Courses>
+                <Course id= "#CourseID">
+                    <Name></Name>
+                    <CreditHours></CreditHours>
+                    <PointsEarned></PointsEarned>
+                    <PointsPossible></PointsPossible>
+
+                    <Groups>
+                        <Group id = "#GroupID">
+                            <Name></Name>
+                            <PointsEarned></PointsEarned>\
+                            <PointsPossible></PointsPossible>
+                            <Weight></Weight>
+
+                            <Assignments>
+                                <Assignment id= "#assignmentID">
+                                    <Name></Name>
+                                    <PointsEarned></PointsEarned>
+                                    <PointsPossibe></PointsPossibe>
+                                </Assignment>
+                            </Assignments>
+                        </Group>
+                    </Groups>
+                </Course>
+            </Courses>
+        </Semester>
+    </Semesters>
+
+    
+</User>

@@ -7,6 +7,7 @@ from UserInterface.saved_credentials import SavedCredentials
 from UserInterface.profile_ui import ProfileUI
 
 from API.canvas_api import canvas_api
+from API.canvas_account import CanvasAccount
 
 import csv
 
@@ -23,6 +24,7 @@ class GradeFetchApp(App):
     ]
     
     api = canvas_api()
+    user = CanvasAccount()
 
     def compose(self):
 
@@ -104,6 +106,8 @@ class GradeFetchApp(App):
         course_progress = self.query_one("#course_progress", ProgressBar)
         course_progress.total = len(self.api.courses)
         for course in self.api.courses:
+            
+            
             course_progress.advance(1)
             
             
