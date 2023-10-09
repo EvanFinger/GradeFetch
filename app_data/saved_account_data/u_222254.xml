@@ -1,32 +1,21 @@
-<User id = "222254">
-    <Name></Name>
-    <CumulativeGPA></CumulativeGPA>
+<?xml version="1.0" encoding="UTF-8"?>
+<User id= '222254' name= 'Evan Finger' gpa= '3.6'>
     <Semesters>
-        <Semester id="1">
-            <Start></Start>
-            <End></End>
-            <CreditHours></CreditHours>
-            <GPA></GPA>
+        <Semester id="1" start_date= 'August 2023' end_date= 'December 2023' credit_hours= '17' gpa= '3.6'>
             <Courses>
-                <Course id= "#CourseID">
-                    <Name></Name>
-                    <CreditHours></CreditHours>
-                    <PointsEarned></PointsEarned>
-                    <PointsPossible></PointsPossible>
-
+                <Course id= "#CourseID" name='Chem 1035' credit_hours= '3' final_grade= '89.25'>
                     <Groups>
-                        <Group id = "#GroupID">
-                            <Name></Name>
-                            <PointsEarned></PointsEarned>\
-                            <PointsPossible></PointsPossible>
-                            <Weight></Weight>
-
+                        <Group id = "#GroupID" name= 'Homework' points_earned= '350' points_possible= '400' weight= '0.3'>
                             <Assignments>
-                                <Assignment id= "#assignmentID">
-                                    <Name></Name>
-                                    <PointsEarned></PointsEarned>
-                                    <PointsPossibe></PointsPossibe>
-                                </Assignment>
+                                <Assignment id= "#assignmentID" name= 'Homework 1' points_earned= '100' points_possible= '100'/>
+                                <Assignment id= "#assignmentID" name= 'Homework 2' points_earned= '100' points_possible= '100'/>
+                                <Assignment id= "#assignmentID" name= 'Homework 3' points_earned= '100' points_possible= '100'/>
+                                <Assignment id= "#assignmentID" name= 'Homework 4' points_earned= '50' points_possible= '100'/>
+                            </Assignments>
+                        </Group>
+                        <Group id = "#GroupID" name= 'Tests' points_earned= '90' points_possible= '100' weight= '0.7'>
+                            <Assignments>
+                                <Assignment id='#assignmentID' name= 'Test 1' points_earned= '90' points_possible= '100'/>
                             </Assignments>
                         </Group>
                     </Groups>
@@ -34,6 +23,4 @@
             </Courses>
         </Semester>
     </Semesters>
-
-    
 </User>

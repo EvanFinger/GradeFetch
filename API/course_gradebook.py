@@ -2,7 +2,6 @@ from canvasapi import Canvas
 
 
 from assignment_group import AssignmentGroup
-from loading_bar import loading_bar
 from tqdm import tqdm
 
 class CourseGradebook:
