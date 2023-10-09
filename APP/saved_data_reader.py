@@ -5,28 +5,32 @@ path = str('GradeFetch\\app_data\\saved_account_data\\u_222254.xml')
 
 mytree = minidom.parse(path)
 tagname = mytree.getElementsByTagName('Assignment')
-
 def LoadToDict(tag):
     return_dict = {}
-    for attribute in tag.attributes.items():
-        return_dict[attribute[0]] = attribute[1]
+    return_dict['id'] = tag.attributes.item(0).value
+    for element in tag.childNodes:
+        try:
+            
+            return_dict[element.localName] = element.firstChild.nodeValue
+        except:
+            pass
+   # print(return_dict)
     return return_dict
 
 data = UserData
 
 for tag in mytree.getElementsByTagName('Semester'):
-    data.AddSemesterFromDict(data, LoadToDict(tag))
+    data.semesters.append(LoadToDict(tag))
     
 for tag in mytree.getElementsByTagName('Course'):
-    data.AddCourseFromDict(data, LoadToDict(tag))
+    data.courses.append(LoadToDict(tag))
     
 for tag in mytree.getElementsByTagName('Group'):
-    data.AddGroupFromDict(data, LoadToDict(tag))
+    data.groups.append(LoadToDict(tag))
     
 for tag in mytree.getElementsByTagName('Assignment'):
-    data.AddAssignmentFromDict(data, LoadToDict(tag))
+    data.assignments.append(LoadToDict(tag))
 
-print(tagname[0].attributes.items())
-print(LoadToDict(tagname[0]))
+# print(LoadToDict(tagname[0]))
 
 

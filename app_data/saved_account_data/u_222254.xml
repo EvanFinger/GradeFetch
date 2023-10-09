@@ -1,21 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<User id= '222254' name= 'Evan Finger' gpa= '3.6'>
+<User id= '222254'>
+    <name>Evan Finger</name>
+    <gpa>3.6</gpa>
     <Semesters>
-        <Semester id="1" start_date= 'August 2023' end_date= 'December 2023' credit_hours= '17' gpa= '3.6'>
+        <Semester id="1">
+            <start_date>August 2023</start_date>
+            <end_date>December 2023</end_date>
+            <credit_hours>3</credit_hours>
+            <gpa>3.6</gpa>
             <Courses>
-                <Course id= "#CourseID" name='Chem 1035' credit_hours= '3' final_grade= '89.25'>
+                <Course id= "000100">
+                    <name>Chem 1035</name>
+                    <credit_hours>3</credit_hours>
+                    <final_grade>89.25</final_grade>
                     <Groups>
-                        <Group id = "#GroupID" name= 'Homework' points_earned= '350' points_possible= '400' weight= '0.3'>
+                        <Group id = "000010">
+                            <name>Homework</name>
+                            <points_earned>350</points_earned>
+                            <points_possible>400</points_possible>
+                            <weight>0.3</weight>
                             <Assignments>
-                                <Assignment id= "#assignmentID" name= 'Homework 1' points_earned= '100' points_possible= '100'/>
-                                <Assignment id= "#assignmentID" name= 'Homework 2' points_earned= '100' points_possible= '100'/>
-                                <Assignment id= "#assignmentID" name= 'Homework 3' points_earned= '100' points_possible= '100'/>
-                                <Assignment id= "#assignmentID" name= 'Homework 4' points_earned= '50' points_possible= '100'/>
+                                <Assignment id= "000001">
+                                    <name>Homework 1</name>
+                                    <points_earned>100</points_earned>
+                                    <points_possible>100</points_possible>
+                                </Assignment>
+                                <Assignment id= "000002">
+                                    <name>Homework 2</name>
+                                    <points_earned>100</points_earned>
+                                    <points_possible>100</points_possible>
+                                </Assignment>
+                                <Assignment id= "000003">
+                                    <name>Homework 3</name>
+                                    <points_earned>100</points_earned>
+                                    <points_possible>100</points_possible>
+                                </Assignment>
+                                <Assignment id= "000004">
+                                    <name>Homework 4</name>
+                                    <points_earned>50</points_earned>
+                                    <points_possible>100</points_possible>
+                                </Assignment>
                             </Assignments>
                         </Group>
-                        <Group id = "#GroupID" name= 'Tests' points_earned= '90' points_possible= '100' weight= '0.7'>
+                        <Group id = "000020">
+                            <name>Tests</name>
+                            <points_earned>90</points_earned>
+                            <points_possible>100</points_possible>
+                            <weight>0.7</weight>
                             <Assignments>
-                                <Assignment id='#assignmentID' name= 'Test 1' points_earned= '90' points_possible= '100'/>
+                                <Assignment id='000005'>
+                                    <name>Test 1</name>
+                                    <points_earned>90</points_earned>
+                                    <points_possible>100</points_possible>
+                                </Assignment>
                             </Assignments>
                         </Group>
                     </Groups>
