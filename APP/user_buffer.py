@@ -1,11 +1,38 @@
-class UserData:
-    name = ''
-    id = ''
+
+name = ''
+id = ''
+       
+       
+semesters = []
+active_semester =  {}
+courses = []
+groups = []
+assignments = []
     
-    
-    semesters =  []
-    courses = []
-    groups = []
-    assignments = []
-    
-        
+
+
+
+# semesters[current_semester]
+
+# courses[{1},{2},{3}]
+
+# groups[ [{1},{2},{3}], [{1},{2},{3}], [{1},{2},{3}] ]
+
+# assignments
+# [ 
+# [ 
+# [{1},{2},{3}], 
+# [{1},{2},{3}], 
+# [{1},{2},{3}] 
+# ], 
+# [ 
+# [{1},{2},{3}], 
+# [{1},{2},{3}], 
+# [{1},{2},{3}] 
+# ], 
+# [ 
+# [{1},{2},{3}], 
+# [{1},{2},{3}], 
+# [{1},{2},{3}] 
+# ] 
+# ]

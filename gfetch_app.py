@@ -9,7 +9,7 @@ from UserInterface.profile_ui import ProfileUI
 from API.canvas_api import canvas_api
 from API.canvas_account import CanvasAccount
 
-import csv
+import csv, time
 
 class GradeFetchApp(App):
 
@@ -104,10 +104,10 @@ class GradeFetchApp(App):
     @on(Button.Pressed, "#fetch")
     def Fetch(self):
         course_progress = self.query_one("#course_progress", ProgressBar)
+        self.api.Fetch()
         course_progress.total = len(self.api.courses)
         for course in self.api.courses:
-            
-            
+            time.sleep(1)
             course_progress.advance(1)
             
             

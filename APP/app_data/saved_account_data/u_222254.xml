@@ -3,7 +3,7 @@
     <name>Evan Finger</name>
     <gpa>3.6</gpa>
     <Semesters>
-        <Semester id="1">
+        <Semester id="Semester 1">
             <start_date>August 2023</start_date>
             <end_date>December 2023</end_date>
             <credit_hours>3</credit_hours>

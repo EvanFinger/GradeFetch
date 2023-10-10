@@ -1,4 +1,5 @@
 from canvasapi import Canvas
+import APP.user_buffer
 
 class canvas_api:
     
@@ -39,7 +40,7 @@ class canvas_api:
     def Fetch(self):
         self.LoadCourses()
         
-    def LoadCousrses(self):
+    def LoadCourses(self):
         for course in self.canvas.get_courses():
             self.courses.append(course)    
     

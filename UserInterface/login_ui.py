@@ -21,7 +21,7 @@ class SavedLoginSelector(Static):
             )  
     
     def UpdateList(self):
-        with open('app_data\\saved_profiles.csv') as file:
+        with open('APP\\app_data\\saved_profiles.csv') as file:
             csv_reader = csv.DictReader(file)
             
             for profile in csv_reader:
