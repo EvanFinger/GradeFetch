@@ -62,7 +62,7 @@ class GradeFetchApp(App):
         API_TOKEN = input.value
         try:
             self.api.LoadCanvasProfile(API_URL=API_URL, API_TOKEN=API_TOKEN)
-            self.user_name = self.api.num_courses
+            self.user_name = self.api.user_name
             self.user_uid = self.api.user_id
             
             self.query_one(LoginUI).remove_class("InvalidLogin")

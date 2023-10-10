@@ -38,7 +38,8 @@ ProfileUI_Layer2 {
     margin-right: 1;
 }
 
-#FetchProgress {
+#fetch_progress {
+    display: none;
     width: 45%;
     align: center middle;
 }

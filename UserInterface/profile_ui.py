@@ -20,7 +20,7 @@ class ProfileUI_Layer2(Static):
         yield Button("CLOSE PROFILE", id="close_profile", variant="error")
         yield Button("SAVE PROFILE", id="save_profile")
         yield Button("FETCH", id="fetch", variant="success")
-        yield FetchProgress()
+        yield FetchProgress(id="fetch_progress")
         
 class FetchProgress(Static):
     
