@@ -19,7 +19,7 @@ class ProfileUI_Layer2(Static):
     def compose(self):
         yield Button("CLOSE PROFILE", id="close_profile", variant="error")
         yield Button("SAVE PROFILE", id="save_profile")
-        yield Button("FETCH", id="fetch", variant="success")
+        yield Button("FETCH FROM CANVAS", id="fetch", variant="success")
         yield FetchProgress()
         
 class FetchProgress(Static):
