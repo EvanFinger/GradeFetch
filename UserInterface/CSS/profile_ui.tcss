@@ -32,14 +32,18 @@ ProfileUI_Layer2 {
 }
 
 #fetch {
-    width: 15%;
+    width: auto;
     align: center middle;
     margin-left: 1;
     margin-right: 1;
 }
 
-#fetch_progress {
-    display: none;
+FetchProgress {
+    display: block;
     width: 45%;
     align: center middle;
+}
+
+.fetching FetchProgress {
+    display: block;
 }

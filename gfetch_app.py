@@ -103,12 +103,13 @@ class GradeFetchApp(App):
     
     @on(Button.Pressed, "#fetch")
     def Fetch(self):
+        self.query_one(ProfileUI).add_class("fetching")
         course_progress = self.query_one("#course_progress", ProgressBar)
         self.api.Fetch()
-        course_progress.total = len(self.api.courses)
-        for course in self.api.courses:
-            time.sleep(1)
-            course_progress.advance(1)
+        course_progress.total = 100
+        for i in range(0,100):
+            time.sleep(0.01)
+            course_progress.update(progress= course_progress.progress + 1)
             
             
         
