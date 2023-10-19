@@ -1,13 +1,14 @@
 import tkinter as tk
 
 import program_data as PD
-from main_menu import MainMenu
+from login import LoginWidgets
 from utils import _from_rgb
 
+screen_stack = [] 
 
 class MAIN_APP():
         
-    screen_stack = []    
+       
     
     def __init__(self) -> None:
         
@@ -18,7 +19,14 @@ class MAIN_APP():
 
         
         self.app = tk.Tk()
+        self.app.title = 'Test'
+        self.app.geometry('800x600')
         
-        self.screen_stack.append(MainMenu(self.app))
+        self.LW = LoginWidgets()
+        
+        self.LW.show_title(self.app)
+        self.LW.s_login_buttons(self.app)
+        
+        self.app.mainloop()
         
 APP = MAIN_APP()
