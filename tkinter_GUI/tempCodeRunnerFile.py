@@ -1,2 +1,1 @@
-
-    def __init__(self) -> None:
+screen_stack.append(LOGIN(self.app))
