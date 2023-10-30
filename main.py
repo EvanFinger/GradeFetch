@@ -1,12 +1,24 @@
 from canvasapi import Canvas
 from tqdm import tqdm
-from textual.app import App
 
-from gfetch_app import GradeFetchApp
+from Screens.display import Display, handler
+
+Handler = handler()
+
+while not Display.empty():
+    
+    Display.top().print_text()
+    
+    Display.top().get_input()
+    
+    Display.top().translate_input()
+    
+    Handler.handle(Display.top().getMessage())
 
 
-if __name__ == "__main__":
-    GradeFetchApp().run()
+
+
+
 
 
 

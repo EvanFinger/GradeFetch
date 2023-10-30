@@ -1,1 +1,0 @@
-screen_stack.append(LOGIN(self.app))
