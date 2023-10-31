@@ -1,6 +1,7 @@
 from Resources.stack import Stack
 from Screens.mainmenu import MainMenu
 from Screens.newprofile import NewProfile
+from Screens.summary import Summary
 
 
 Display = Stack(MainMenu())
@@ -30,5 +31,5 @@ class handler:
             case '_nav_new_profile':
                 Display.push(NewProfile())
             case '_load_profile':
-                print(parameter.split(':::'))
-                input()
+                _url, _token = parameter.split(':::')
+                Display.push(Summary(_url, _token))

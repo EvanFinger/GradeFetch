@@ -27,6 +27,8 @@ class canvas_api:
         self.api_url = API_URL
         self.api_token = API_TOKEN
         
+        self.courses = [*self.canvas.get_courses()]
+        
         
                 
     def UnloadCanvasProfile(self):
@@ -36,9 +38,6 @@ class canvas_api:
         self.user_id = 0
         self.api_url = ""
         self.api_token = ""
-        
-    def Fetch(self):
-        self.LoadCourses()
         
     def LoadCourses(self):
         for course in self.canvas.get_courses():
