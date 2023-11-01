@@ -6,36 +6,54 @@ import APP.user_buffer
 class canvas_api:
     
     canvas = None
+    """Canvas object from canvasapi. Communicates with the API to 'fetch' the data
+    """
     user = None
-    
+    """(User) Canvas user object sotring the current user's canvas profile
+    """
     # Account Information
     user_name = ""
+    """(string) User's canvas username from user
+    """
     user_id = 0
+    """(string) User's canvas userid from user
+    """
     api_url = ""
+    """(string) URL fed to canvas to link to the proper API
+    """
     api_token = ""
+    """(string) TOKEN which specifies to the API the correct account to get data from
+    """
     num_courses = 0
+    """(int) the number of courses saved in the courses dictionary
+    """
     
     # Fetched Data
-    courses = []
-    
+    courses = {}
+    """(dict) Dictionary containing each of the user's courses. Begins filled with native formatted course
+        objects. These are then replaced with course objects created by this program
+    """
     
     
     def LoadCanvasUser(self,API_URL, API_TOKEN):
         self.canvas = Canvas(API_URL, API_TOKEN)
+
         self.user = self.canvas.get_current_user()
-        
         self.user_name = self.user.name
         self.user_id = self.user.id
         self.api_url = API_URL
         self.api_token = API_TOKEN
         
         self.courses = {}
+        
         for course in [*self.canvas.get_courses()]:
             self.courses[course.name] = course
         
         
                 
     def UnloadCanvasProfile(self):
+        """Deletes all the active variables in the canvas_api object
+        """
         self.canvas = None
         self.user = None
         self.user_name = ""
@@ -78,29 +96,39 @@ class Course:
         self.credit_hours = 1   # defaults to 1
 
 class AssignmentGroup:
+    """A class containing relevant data from the canvas API AssignmentGroup objects.
+    Formatted to work within the program.
+    """
     
     def __init__(self, group_api):
         
     # Group in API format
-        # 'api_form' is the Assignment group in its native format from the API
         self.api_form = group_api
+        """(Assignment) The assignment group in its native form from the API
+        """
         
     # List Items
-        # 'Assignments' is a dictionary containing each assignment in the group
         self.Assignments = {} 
+        """(dict) contains all assignments (formatted) from the assignment group
+        """
     
     # Group Data
-        # 'id' is an identification label for the group
-        self.id = None  # 'type' = int
-        # 'name' is a string containing the name of the group as seen in Canvas
-        self.name = ''  # 'type' = string
-        # 'possible_points' is an integer containing the total possible points in group
-        self.possible_pts = 0  # 'type' = int
-        # 'earned_pts' is a float containing the total earned points in group
-        self.earned_pts = 0.0  # 'type' = float
-        # 'group_weight' is a float containing the groups effective weight
-        self.group_weight = 0.0  # 'type' = float
-        # 'has_graded_assignment' is a boolean representing the presence of a graded
-        # assignment in the group. Determines whether or not to use the group in final grade
-        self.has_graded_assignment = False  # 'type' = boolean
+        self.id = None  
+        """(int) identification number for the group sourced from canvas.
+        """
+        self.name = ''
+        """(string) name of the group as seen in canvas.
+        """
+        self.possible_pts = 0
+        """(int) number of points possible in the assignment group.
+        """
+        self.earned_pts = 0.0
+        """(float) number of points earned by the user in the assignment group.
+        """
+        self.group_weight = 0.0
+        """(float) weight of the group when calculating parent course's final grade.
+        """
+        self.has_graded_assignment = False
+        """(boolean) True if assignmnet group contains a graded submission. False otherwise.
+        """
     
