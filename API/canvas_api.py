@@ -62,22 +62,34 @@ class canvas_api:
         self.api_token = ""
         
     def loadProfileData(self):
-        with tqdm(self.courses.values(), ncols=100, colour='red', desc='Fetching Courses... ', leave=False) as progBar:
-            for course_api in progBar:
+        with tqdm(list(self.courses), ncols=100, colour='red', desc='Fetching Courses... ', leave=False) as progBar:
+            for key in progBar:
                 # Initialize a new Course object to store course data
-                course_obj = Course(course_api) 
+                course_obj = Course(self.courses[key]) 
+                
                 
                 # Get credit hour value for the course from user 
                 print("\nENTER COURSE CREDIT HOURS (Press enter if course does not contribute to GPA, we will ignore it!)")
                 print('This can be edited later, so dont worry if you make a mistake!')
-                course_obj.credit_hours = input(course_api.name + '\n>>> ')
+                in_ = input(self.courses[key].name + '\n>>> ')
+                if in_ == '':
+                    course_obj.credit_hours = -1
+                else:
+                    try:
+                        course_obj.credit_hours = int(in_)
+                    except(Exception):
+                        print("INVALID ENTRY. ENTRY MUST BE AN INTEGER!!")
                 os.system('cls')
                 
                 # If course is chosen to be ignored, it is removed from the system
                 if course_obj.credit_hours == -1:
-                    self.courses[course_api.name] = None
+                    del self.courses[self.courses[key].name]
+                    print(course_obj.api_form.name + ' IGNORED')
                 else:
-                    pass
+                    self.courses[self.courses[key].name] = course_obj
+                    print(course_obj.api_form.name + ' INCLUDED')
+            print(self.courses)
+            input()
                 
         
 class Course:
@@ -93,7 +105,7 @@ class Course:
     # Course Data
         self.final_grade = None
         self.course_weight = -1  # defaults to 1
-        self.credit_hours = 1   # defaults to 1
+        self.credit_hours = -1   # defaults to -1
 
 class AssignmentGroup:
     """A class containing relevant data from the canvas API AssignmentGroup objects.
