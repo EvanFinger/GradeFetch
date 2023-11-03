@@ -62,13 +62,27 @@ class canvas_api:
         self.api_token = ""
         
     def loadProfileData(self):
-        with tqdm(list(self.courses), ncols=100, colour='red', desc='Fetching Courses... ', leave=False) as progBar:
+        self.get_course_credits_from_input()
+        print(self.courses)
+        input()
+        
+    def get_course_credits_from_input(self):
+        """Prompts the user for input. Asks for credit value of the course object passed
+        through course_obj.
+
+        Args:
+            course_obj (Course): Course object containing data on the course
+            key (string): key for locating the correct course from self.courses
+        """
+        # Initialize Function-Wide Variables
+        ignored_courses = {}
+        included_courses = {}
+        
+        with tqdm(list(self.courses), ncols=100, colour='red', desc='Progress: ', leave=False) as progBar:
             for key in progBar:
                 # Initialize a new Course object to store course data
                 course_obj = Course(self.courses[key]) 
                 
-                
-                # Get credit hour value for the course from user 
                 print("\nENTER COURSE CREDIT HOURS (Press enter if course does not contribute to GPA, we will ignore it!)")
                 print('This can be edited later, so dont worry if you make a mistake!')
                 in_ = input(self.courses[key].name + '\n>>> ')
@@ -80,24 +94,51 @@ class canvas_api:
                     except(Exception):
                         print("INVALID ENTRY. ENTRY MUST BE AN INTEGER!!")
                 os.system('cls')
-                
+                        
                 # If course is chosen to be ignored, it is removed from the system
-                if course_obj.credit_hours == -1:
-                    del self.courses[self.courses[key].name]
-                    print(course_obj.api_form.name + ' IGNORED')
-                else:
-                    self.courses[self.courses[key].name] = course_obj
-                    print(course_obj.api_form.name + ' INCLUDED')
-            print(self.courses)
-            input()
                 
+                if course_obj.credit_hours == -1:
+                    ignored_courses[self.courses[key].name] = course_obj
+                    print('\033[31m' + course_obj.root.name + ' IGNORED\033[0m')
+                else:
+                    included_courses[self.courses[key].name] = course_obj
+                    print('\033[32m' + course_obj.root.name + ' INCLUDED\033[0m')
+                #print(self.courses)
+        # Allow user to check entries and make sure no mistakes were made. 
+        os.system('cls')
+        print('These courses WILL be used ->')
+        print('COURSE NAME   [CREDITS]\033[32m')  
+        # Display all INCLUDED courses
+        for key in included_courses.keys():
+            print(included_courses[key].root.name + f'  [{included_courses[key].credit_hours}]')
+        print('\033[0m')
+        print('These courses WILL NOT be used ->\033[31m')
+        # Display all IGNORED courses
+        for key in ignored_courses.keys():
+            print(ignored_courses[key].root.name)
+        print('\033[37m')
+        print('Is this CORRECT? [Y/N]')
+        cont = True
+        # Get input (Y/N)
+        while cont:
+            match input('>>> '):
+                case 'Y': # If 'Y' overrides self.courses with newly created Course objects
+                    self.courses = included_courses
+                    del ignored_courses
+                    cont = False
+                case 'N': # If 'N', recursively call function to redo entries
+                    self.get_course_credits_from_input() 
+                    cont = False
+                case _:
+                    pass
+        
         
 class Course:
     
     def __init__(self, course_api):
         
     # Course in API format
-        self.api_form = course_api
+        self.root = course_api
         
     # List Items
         self.AssignmentGroups = {}
@@ -115,7 +156,7 @@ class AssignmentGroup:
     def __init__(self, group_api):
         
     # Group in API format
-        self.api_form = group_api
+        self.root = group_api
         """(Assignment) The assignment group in its native form from the API
         """
         
