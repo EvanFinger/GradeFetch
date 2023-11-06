@@ -1,6 +1,6 @@
 from canvasapi import Canvas
 from tqdm import tqdm
-import os
+import os, time
 import APP.user_buffer
 
 class canvas_api:
@@ -63,19 +63,28 @@ class canvas_api:
         
     def loadProfileData(self):
         self.get_course_credits_from_input()
-        
-        with tqdm(self.courses, ncols=100, colour='blue', desc='Loading...', leave=False) as course_bar:
+        print(self.courses.values())
+        print()
+        with tqdm(self.courses.values(), colour='blue', desc='Loading...', leave=False) as course_bar:
             for course in course_bar:
-                assignment_groups_api = course.root.get_assignment_groups
-                with tqdm(course.AssignmentGroups, ncols=100, colour='blue',desc='Loading..',leave=False) as group_bar:
+                course_bar.desc = course.root.name # name the progress bar
+                assignment_groups_api = course.root.get_assignment_groups()
+                
+                with tqdm(assignment_groups_api, total=len([*assignment_groups_api]), colour='yellow',desc='Loading..',leave=False) as group_bar:
                     for group in group_bar:
+                        group_bar.desc = group.name
                         group_obj = AssignmentGroup(group)
-                        with tqdm(course.root.get_assignments, ncols=100, colour='blue', desc='Loading.', leave=False) as assignment_bar:
+                        for assignment in course.root.get_assignments():
+                            if assignment.assignment_group_id == group_obj.root.id:
+                                group_obj.Assignments[assignment.name] = assignment
+                        
+                        
+                        with tqdm(group_obj.Assignments.values(), colour='red', desc='Loading.', leave=False) as assignment_bar:
                             for assignment in assignment_bar:
-                                if assignment.assignment_group_id == group_obj.root.id:
-                                    group_obj.Assignments[assignment.name] = Assignment(assignment)
+                                assignment_bar.desc = assignment.name
+                                assignment = Assignment(assignment)
+                                time.sleep(0.01)
                         course.AssignmentGroups[group.name] = AssignmentGroup(group)
-                print(course.AssignmnetGroups) 
                                 
     def get_course_credits_from_input(self):
         """Prompts the user for input. Asks for credit value of the course object passed
