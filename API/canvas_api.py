@@ -45,9 +45,15 @@ class canvas_api:
         self.api_token = API_TOKEN
         
         self.courses = {}
-        
+        ## In case courses exist that are inaccessable or hidden/deleted
+        ## Skips over courses without a name attribute
         for course in [*self.canvas.get_courses()]:
-            self.courses[course.name] = course
+            try:
+                course.name
+            except(Exception):
+                pass
+            else:
+                self.courses[course.id] = course
         
         
                 
@@ -102,7 +108,7 @@ class canvas_api:
             for key in progBar:
                 # Initialize a new Course object to store course data
                 course_obj = Course(self.courses[key]) 
-                
+                print(key)
                 print("\nENTER COURSE CREDIT HOURS (Press enter if course does not contribute to GPA, we will ignore it!)")
                 print('This can be edited later, so dont worry if you make a mistake!')
                 in_ = input(self.courses[key].name + '\n>>> ')
@@ -151,6 +157,8 @@ class canvas_api:
                     cont = False
                 case _:
                     pass
+        
+    def processProfileData(self):
         
         
 class Course:

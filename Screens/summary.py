@@ -16,6 +16,7 @@ class Summary(Screen):
             
     def loadProfileToAPI(self):
         self._apiLink.loadProfileData()
+        self._apiLink.processProfileData()
 
         
         
