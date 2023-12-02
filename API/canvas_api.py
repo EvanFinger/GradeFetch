@@ -79,18 +79,20 @@ class canvas_api:
                 with tqdm(assignment_groups_api, total=len([*assignment_groups_api]), colour='yellow',desc='Loading..',leave=False) as group_bar:
                     for group in group_bar:
                         group_bar.desc = group.name
-                        group_obj = AssignmentGroup(group)
+                        new_group_obj = AssignmentGroup(group, self.user_id)
                         for assignment in course.root.get_assignments():
-                            if assignment.assignment_group_id == group_obj.root.id:
-                                group_obj.Assignments[assignment.name] = assignment
+                            if assignment.assignment_group_id == new_group_obj.root.id:
+                                new_group_obj.Assignments[assignment.name] = assignment
                         
                         
-                        with tqdm(group_obj.Assignments.values(), colour='red', desc='Loading.', leave=False) as assignment_bar:
-                            for assignment in assignment_bar:
-                                assignment_bar.desc = assignment.name
-                                assignment = Assignment(assignment)
-                                time.sleep(0.01)
-                        course.AssignmentGroups[group.name] = AssignmentGroup(group)
+                        with tqdm(new_group_obj.Assignments, colour='red', desc='Loading.', leave=False) as assignment_bar:
+                            for name in assignment_bar:
+                                assignment_bar.desc = name
+                                new_group_obj.Assignments[name] = Assignment(new_group_obj.Assignments[name], self.user_id)
+
+                            
+                                
+                        course.AssignmentGroups[group.name] = AssignmentGroup(new_group_obj, self.user_id)
                                 
     def get_course_credits_from_input(self):
         """Prompts the user for input. Asks for credit value of the course object passed
@@ -107,7 +109,7 @@ class canvas_api:
         with tqdm(list(self.courses), ncols=100, colour='red', desc='Progress: ', leave=False) as progBar:
             for key in progBar:
                 # Initialize a new Course object to store course data
-                course_obj = Course(self.courses[key]) 
+                course_obj = Course(self.courses[key], self.user_id) 
                 print(key)
                 print("\nENTER COURSE CREDIT HOURS (Press enter if course does not contribute to GPA, we will ignore it!)")
                 print('This can be edited later, so dont worry if you make a mistake!')
@@ -149,7 +151,12 @@ class canvas_api:
         while cont:
             match input('>>> '):
                 case 'Y': # If 'Y' overrides self.courses with newly created Course objects
-                    self.courses = included_courses
+                    for temp in included_courses:
+                        print(temp)
+                    input()
+                    del self.courses
+                    for course in included_courses.values():
+                        self.courses[course.root.id] = course
                     del ignored_courses
                     cont = False
                 case 'N': # If 'N', recursively call function to redo entries
@@ -159,11 +166,26 @@ class canvas_api:
                     pass
         
     def processProfileData(self):
-        
-        
+        for course in self.courses.values():
+            for group in course.AssignmentGroups.values():
+                self.getAssignmentGroupGrade(group)
+    
+    def getAssignmentGroupGrade(self, assignmentGroup):
+        print(assignmentGroup.Assignments)
+        input()
+        for assignment in assignmentGroup.Assignments.values():
+            if assignment.isGraded:
+                assignmentGroup.has_graded_assignment = True
+                assignmentGroup.possible_points = assignmentGroup.possible_points + assignment.possible_points
+                assignmentGroup.earned_points = assignmentGroup.earned_points + assignment.earned_points
+                print(assignmentGroup.earned_points + '/' + assignmentGroup.possible_points)
+        assignmentGroup.grade = assignmentGroup.earned_points / assignmentGroup.possible_points
+        print(assignmentGroup.name + " " + assignmentGroup.grade)
+        input()
+                
 class Course:
     
-    def __init__(self, course_api):
+    def __init__(self, course_api, user_id):
         
     # Course in API format
         self.root = course_api
@@ -181,7 +203,7 @@ class AssignmentGroup:
     Formatted to work within the program.
     """
     
-    def __init__(self, group_api):
+    def __init__(self, group_api, user_id):
         
     # Group in API format
         self.root = group_api
@@ -194,19 +216,22 @@ class AssignmentGroup:
         """
     
     # Group Data
-        self.id = None  
+        self.id = self.root.id  
         """(int) identification number for the group sourced from canvas.
         """
-        self.name = ''
+        self.name = self.root.name
         """(string) name of the group as seen in canvas.
         """
-        self.possible_pts = 0
+        self.possible_points = 0
         """(int) number of points possible in the assignment group.
         """
-        self.earned_pts = 0.0
+        self.earned_points = 0.0
         """(float) number of points earned by the user in the assignment group.
         """
-        self.group_weight = 0.0
+        self.grade = 0.0
+        """(float) overall grade for the assignment group
+        """
+        self.group_weight = self.root.group_weight
         """(float) weight of the group when calculating parent course's final grade.
         """
         self.has_graded_assignment = False
@@ -214,7 +239,7 @@ class AssignmentGroup:
         """
 class Assignment:
     
-    def __init__(self, assignment_api):
+    def __init__(self, assignment_api, user_id):
         pass
         # Assignment in API format
         self.root = assignment_api
@@ -222,30 +247,43 @@ class Assignment:
         """
         
         # Assignment Data
-        self.submission = None
+        try:
+            self.submission = self.root.get_submission(user_id)
+        except(Exception):
+            self.submission = None
+            pass
         """(Submission) Graded submission for the assignmnet if any
         """
         
-        self.id = 0
+        self.id = self.root.id
         """(int) identification number for the assignment generated by canvas
         """
         
-        self.name = ''
+        self.name = self.root.name
         """(string) name of the assignment as seen on canvas website
         """
         
-        self.possible_pts = 0
+        self.possible_points = self.root.points_possible
+        if self.possible_points == None:
+            self.possible_points = 0
         """(int) number of points possible for the assignment
         """
-        
-        self.earned_pts = 0
+        self.earned_points = -1
+        try:
+            self.earned_points = self.root.submission.score
+        except(Exception):
+            self.earned_points = -1
         """(int) number of points earned by the user on the assignment
         """
+        self.is_Graded = self.earned_points >= 0
         
-        self.grade = 0.0
+        if self.possible_points > 0:
+            self.grade = self.earned_points / self.possible_points
+        else:
+            self.grade = 0.0
         """(float) overall grade on the assignment
         """
         
-        self.is_Graded = False
+        
         """(boolean) true if assignment has a graded submission, false otherwise.
         """
