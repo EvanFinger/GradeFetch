@@ -92,7 +92,7 @@ class canvas_api:
 
                             
                                 
-                        course.AssignmentGroups[group.name] = AssignmentGroup(new_group_obj, self.user_id)
+                        course.AssignmentGroups[group.name] = new_group_obj
                                 
     def get_course_credits_from_input(self):
         """Prompts the user for input. Asks for credit value of the course object passed
@@ -174,13 +174,16 @@ class canvas_api:
         print(assignmentGroup.Assignments)
         input()
         for assignment in assignmentGroup.Assignments.values():
-            if assignment.isGraded:
+            if assignment.is_Graded:
                 assignmentGroup.has_graded_assignment = True
                 assignmentGroup.possible_points = assignmentGroup.possible_points + assignment.possible_points
                 assignmentGroup.earned_points = assignmentGroup.earned_points + assignment.earned_points
-                print(assignmentGroup.earned_points + '/' + assignmentGroup.possible_points)
-        assignmentGroup.grade = assignmentGroup.earned_points / assignmentGroup.possible_points
-        print(assignmentGroup.name + " " + assignmentGroup.grade)
+                print(str(assignmentGroup.earned_points) + '/' + str(assignmentGroup.possible_points))
+        if assignmentGroup.possible_points > 0:
+            assignmentGroup.grade = assignmentGroup.earned_points / assignmentGroup.possible_points
+        else:
+            assignmentGroup.grade = -1.0
+        print(assignmentGroup.name + " " + str(assignmentGroup.grade))
         input()
                 
 class Course:
@@ -240,18 +243,13 @@ class AssignmentGroup:
 class Assignment:
     
     def __init__(self, assignment_api, user_id):
-        pass
         # Assignment in API format
         self.root = assignment_api
         """(Assignment) The assignment in its native form from the API
         """
         
         # Assignment Data
-        try:
-            self.submission = self.root.get_submission(user_id)
-        except(Exception):
-            self.submission = None
-            pass
+        self.submission = self.root.get_submission(user_id)
         """(Submission) Graded submission for the assignmnet if any
         """
         
@@ -269,10 +267,11 @@ class Assignment:
         """(int) number of points possible for the assignment
         """
         self.earned_points = -1
-        try:
-            self.earned_points = self.root.submission.score
-        except(Exception):
-            self.earned_points = -1
+        if self.submission.attempt != None and self.submission.workflow_state == 'graded':
+            try:
+                self.earned_points = self.submission.score
+            except(Exception):
+                self.earned_points = -1
         """(int) number of points earned by the user on the assignment
         """
         self.is_Graded = self.earned_points >= 0
