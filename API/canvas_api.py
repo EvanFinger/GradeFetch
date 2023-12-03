@@ -169,22 +169,36 @@ class canvas_api:
         for course in self.courses.values():
             for group in course.AssignmentGroups.values():
                 self.getAssignmentGroupGrade(group)
+                course.weight = course.weight + group.weight
+            
+            if course.weight > 0: # Weighted course
+                for group in course.AssignmentGroups.values():
+                    if group.has_graded_assignment:
+                        course.final_grade = course.final_grade + (group.grade * group.weight)
+                course.final_grade = course.final_grade / course.weight
+            else:
+                points_in_course = 0
+                for group in course.AssignmentGroups.values():
+                    if group.has_graded_assignment:
+                        points_in_course = points_in_course + group.possible_points
+                        course.final_grade = course.final_grade + group.earned_points
+                course.final_grade = course.final_grade / points_in_course
+            
+            print(course.name + " " + str(course.final_grade))
+            input()
     
     def getAssignmentGroupGrade(self, assignmentGroup):
         print(assignmentGroup.Assignments)
-        input()
         for assignment in assignmentGroup.Assignments.values():
             if assignment.is_Graded:
                 assignmentGroup.has_graded_assignment = True
                 assignmentGroup.possible_points = assignmentGroup.possible_points + assignment.possible_points
                 assignmentGroup.earned_points = assignmentGroup.earned_points + assignment.earned_points
-                print(str(assignmentGroup.earned_points) + '/' + str(assignmentGroup.possible_points))
+                
         if assignmentGroup.possible_points > 0:
-            assignmentGroup.grade = assignmentGroup.earned_points / assignmentGroup.possible_points
+            assignmentGroup.grade = (assignmentGroup.earned_points / assignmentGroup.possible_points) * 100
         else:
             assignmentGroup.grade = -1.0
-        print(assignmentGroup.name + " " + str(assignmentGroup.grade))
-        input()
                 
 class Course:
     
@@ -197,8 +211,10 @@ class Course:
         self.AssignmentGroups = {}
         
     # Course Data
-        self.final_grade = None
-        self.course_weight = -1  # defaults to 1
+        self.name = self.root.name
+        self.id = self.root.id
+        self.final_grade = 0
+        self.weight = 0  # defaults to 0
         self.credit_hours = -1   # defaults to -1
 
 class AssignmentGroup:
@@ -234,7 +250,7 @@ class AssignmentGroup:
         self.grade = 0.0
         """(float) overall grade for the assignment group
         """
-        self.group_weight = self.root.group_weight
+        self.weight = self.root.group_weight
         """(float) weight of the group when calculating parent course's final grade.
         """
         self.has_graded_assignment = False
@@ -266,23 +282,25 @@ class Assignment:
             self.possible_points = 0
         """(int) number of points possible for the assignment
         """
-        self.earned_points = -1
-        if self.submission.attempt != None and self.submission.workflow_state == 'graded':
-            try:
-                self.earned_points = self.submission.score
-            except(Exception):
-                self.earned_points = -1
+        self.earned_points = None
+        try:
+            self.earned_points = self.submission.score
+        except Exception as e:
+            self.earned_points = None
+            print(e)
         """(int) number of points earned by the user on the assignment
         """
-        self.is_Graded = self.earned_points >= 0
+        self.is_Graded = self.earned_points != None
+        """(boolean) true if assignment has a graded submission, false otherwise.
+        """
         
-        if self.possible_points > 0:
-            self.grade = self.earned_points / self.possible_points
-        else:
-            self.grade = 0.0
+        if self.is_Graded:
+            if self.possible_points > 0:
+                self.grade = (self.earned_points / self.possible_points) * 100 
+            else:
+                self.grade = self.earned_points * 100
         """(float) overall grade on the assignment
         """
         
         
-        """(boolean) true if assignment has a graded submission, false otherwise.
-        """
+        
