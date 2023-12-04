@@ -168,8 +168,9 @@ class canvas_api:
     def processProfileData(self):
         for course in self.courses.values():
             for group in course.AssignmentGroups.values():
-                self.getAssignmentGroupGrade(group)
-                course.weight = course.weight + group.weight
+                    self.getAssignmentGroupGrade(group)
+                    if group.has_graded_assignment:
+                        course.weight = course.weight + group.weight
             
             if course.weight > 0: # Weighted course
                 for group in course.AssignmentGroups.values():
@@ -287,7 +288,6 @@ class Assignment:
             self.earned_points = self.submission.score
         except Exception as e:
             self.earned_points = None
-            print(e)
         """(int) number of points earned by the user on the assignment
         """
         self.is_Graded = self.earned_points != None
